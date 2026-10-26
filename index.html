@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Glow Button</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500&display=swap" rel="stylesheet">
+<style>
+@property --a { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+
+:root {
+  color-scheme: dark;
+  --bg: #111111;
+  --btn-bg: #e8e8e8;
+  --btn-text: #111111;
+  --c1: #3b5bff;
+  --c2: #22d35f;
+  --c3: #ff8a1f;
+  --blur: 14px;
+  --dur: 3s;
+  --scale: 1.1;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: env(safe-area-inset-top, 0px) 0 env(safe-area-inset-bottom, 0px);
+}
+
+.glow {
+  position: relative;
+  display: inline-flex;
+  isolation: isolate;
+  border-radius: 8px;
+}
+.glow::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  z-index: -1;
+  border-radius: 12px;
+  background: conic-gradient(from var(--a), var(--c1), var(--c2), var(--c3), var(--c1));
+  filter: blur(var(--blur));
+  transform: scale(var(--scale));
+  opacity: .95;
+  animation: glow-spin var(--dur) linear infinite;
+}
+.glow-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  font: 500 15px/1 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+}
+.glow-btn svg { width: 16px; height: 16px; transition: transform .2s ease; }
+.glow-btn:hover svg { transform: translateX(3px); }
+.glow-btn:focus-visible { outline: 2px solid #8aa0ff; outline-offset: 3px; }
+
+@keyframes glow-spin { to { --a: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .glow::before { animation: none; } }
+</style>
+</head>
+<body>
+  <div class="glow">
+    <button class="glow-btn" type="button">
+      Get Started
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+    </button>
+  </div>
+</body>
+</html>
